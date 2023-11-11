@@ -13,5 +13,5 @@ DELETE_SIZE = the minimum size a video file must be (in MB) to consider it extra
 
 ### to run
 
-docker pull ghcr.io/levensailor/media-manager
+docker pull ghcr.io/levensailor/media-manager:master
 docker run -d --restart=unless-stopped -e DELETE_SIZE=500 -v /media:/media media-manager
