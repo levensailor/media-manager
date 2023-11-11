@@ -4,7 +4,7 @@ from rarfile import RarFile
 from dotenv import load_dotenv
 load_dotenv()
 
-base_directory = (f'''../{os.environ.get('base_directory', 'media')}''')
+base_directory = (f'''../{os.environ.get('BASE_DIRECTORY', 'media')}''')
 delete_size = int(os.environ.get('DELETE_SIZE', 200000000))
 rar_files = ('.rar', '.r01', '.r00')
 video_formats = ('.avi', '.mkv', '.mp4', '.m4v', '.mov', '.wmv')
