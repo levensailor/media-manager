@@ -1,13 +1,15 @@
 import os
-import sys
 import pathlib
-import glob
-import subprocess
 from rarfile import RarFile
-base_directory = "videos"
+from dotenv import load_dotenv
+load_dotenv()
+
+base_directory = (f'''../{os.environ.get('base_directory', 'media')}''')
+delete_size = int(os.environ.get('DELETE_SIZE', 200000000))
 rar_files = ('.rar', '.r01', '.r00')
 video_formats = ('.avi', '.mkv', '.mp4', '.m4v', '.mov', '.wmv')
 for root, subFolders, files in os.walk(base_directory):
+    print(root)
     for folder in subFolders:
         files = [f for f in pathlib.Path(f'{base_directory}/{folder}').iterdir() if f.is_file()]
         has_video = False
@@ -18,9 +20,16 @@ for root, subFolders, files in os.walk(base_directory):
             if str(file).endswith(video_formats):
                 has_video = True
         if has_video and has_rar:
+            has_legit_video = False
             print(f'deleting rar files from {folder}')
             for file in files:
-                if not str(file).endswith(video_formats):
+                if str(file).endswith(video_formats):
+                    _path = os.path.join(root, file)
+                    size = os.stat(_path).st_size
+                    if size > delete_size:
+                        has_legit_video = True
+            for file in files:
+                if not str(file).endswith(video_formats) and has_legit_video:
                     os.remove(f'{os.getcwd()}/{file}')
         elif has_rar and not has_video:
             for file in files:
