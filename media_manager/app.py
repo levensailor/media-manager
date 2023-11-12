@@ -34,8 +34,8 @@ for root, subFolders, files in os.walk(base_directory):
                         os.remove(f'{os.getcwd()}/{file}')
             elif has_rar and not has_video:
                 for file in files:
-                if str(file).endswith('.rar'):
-                    with RarFile(file) as rf:
-                        rf.extractall(path=f'{base_directory}/{folder}')
+                    if str(file).endswith('.rar'):
+                        with RarFile(file) as rf:
+                            rf.extractall(path=f'{base_directory}/{folder}')
 
             print(f'extracting rar files for {folder}')
